@@ -1,4 +1,7 @@
-import { Link, useRouterState } from "@tanstack/react-router";
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import {
   LayoutDashboard,
@@ -25,7 +28,7 @@ const items: NavItem[] = [
 ];
 
 export function Sidebar() {
-  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
 
   return (
@@ -57,7 +60,7 @@ export function Sidebar() {
             return (
               <li key={item.to}>
                 <Link
-                  to={item.to}
+                  href={item.to}
                   className="relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-sidebar-foreground/80 hover:text-sidebar-foreground transition-colors focus-ring"
                   aria-current={active ? "page" : undefined}
                   aria-label={item.label}

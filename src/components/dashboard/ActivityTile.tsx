@@ -1,3 +1,5 @@
+"use client";
+
 import { motion } from "framer-motion";
 import { useMemo, useState } from "react";
 import { BentoItem } from "./BentoGrid";

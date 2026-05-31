@@ -1,3 +1,5 @@
+"use client";
+
 import { motion } from "framer-motion";
 import { Flame, ArrowUpRight } from "lucide-react";
 import { BentoItem } from "./BentoGrid";

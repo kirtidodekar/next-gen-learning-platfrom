@@ -1,3 +1,5 @@
+"use client";
+
 import { motion } from "framer-motion";
 import type { Course } from "@/types/course";
 import { resolveIcon } from "./icon-map";

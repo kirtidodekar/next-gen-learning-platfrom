@@ -1,4 +1,7 @@
-import { Link, useRouterState } from "@tanstack/react-router";
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { LayoutDashboard, GraduationCap, LineChart, Settings, type LucideIcon } from "lucide-react";
 
@@ -11,7 +14,7 @@ const items: Item[] = [
 ];
 
 export function BottomNav() {
-  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const pathname = usePathname();
   return (
     <nav
       aria-label="Primary"
@@ -24,7 +27,7 @@ export function BottomNav() {
           return (
             <li key={it.to}>
               <Link
-                to={it.to}
+                href={it.to}
                 className="relative flex flex-col items-center gap-1 py-2.5 text-[11px] text-muted-foreground focus-ring rounded-2xl"
                 aria-current={active ? "page" : undefined}
                 aria-label={it.label}

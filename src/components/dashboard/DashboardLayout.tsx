@@ -1,3 +1,5 @@
+"use client";
+
 import type { ReactNode } from "react";
 import { Bell, Search } from "lucide-react";
 import { Sidebar } from "./Sidebar";
