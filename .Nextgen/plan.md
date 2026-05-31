@@ -1,11 +1,11 @@
 
 # Next-Gen Learning Dashboard
 
-A premium, dark-themed bento-grid dashboard with hardware-accelerated animations, server-side Supabase data fetching, and a slim collapsible sidebar — built on the project's supported stack (TanStack Start + Lovable Cloud), keeping every product requirement from the brief.
+A premium, dark-themed bento-grid dashboard with hardware-accelerated animations, server-side Supabase data fetching, and a slim collapsible sidebar — built on the project's supported stack (TanStack Start + Next-Gen Learning Platfrom Cloud), keeping every product requirement from the brief.
 
-## 1. Backend (Lovable Cloud / Supabase)
+## 1. Backend (Next-Gen Learning Platfrom Cloud / Supabase)
 
-Enable Lovable Cloud, then create a migration:
+Enable Next-Gen Learning Platfrom Cloud, then create a migration:
 
 - Table `public.courses`
   - `id uuid pk default gen_random_uuid()`
@@ -93,4 +93,4 @@ src/components/dashboard/*.tsx          (Sidebar, BottomNav, BentoGrid,
 - Navigate preview to `/`, confirm bento renders with 4 seeded courses, sidebar active indicator animates between routes, progress bars animate on mount, no layout shift on hover
 - Check server-function-logs if courses fail to load
 
-No `.env` setup required — Lovable Cloud auto-wires Supabase credentials. No README/deployment doc needed (Lovable handles publish).
+No `.env` setup required — Next-Gen Learning Platfrom Cloud auto-wires Supabase credentials. No README/deployment doc needed (Next-Gen Learning Platfrom handles publish).
