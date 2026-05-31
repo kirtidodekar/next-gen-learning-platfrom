@@ -69,7 +69,7 @@ Dashboard Analytics & Course Data
 ### Clone Repository
 
 ```bash
-https://github.com/kirtidodekar/next-gen-learning-platfrom.git
+git clone https://github.com/kirtidodekar/next-gen-learning-platfrom.git
 cd next-gen-learning-dashboard
 ```
 
