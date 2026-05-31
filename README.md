@@ -115,6 +115,3 @@ npm start
 * User Authentication
 * Course Certificates
 
-## 📄 License
-
-MIT License
