@@ -1,3 +1,5 @@
+"use client";
+
 import { motion } from "framer-motion";
 import { Clock, Trophy } from "lucide-react";
 import { BentoItem } from "./BentoGrid";
