@@ -14,6 +14,44 @@ export type Database = {
   }
   public: {
     Tables: {
+      profiles: {
+        Row: {
+          id: string
+          user_id: string
+          full_name: string
+          email: string
+          avatar_url: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          full_name?: string
+          email?: string
+          avatar_url?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          full_name?: string
+          email?: string
+          avatar_url?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_user_id_fkey"
+            columns: ["user_id"]
+            isRelationOneToOne: true
+            referencedRelation: "users"
+            referencedTable: "auth.users"
+          }
+        ]
+      }
       courses: {
         Row: {
           created_at: string
@@ -38,6 +76,79 @@ export type Database = {
         }
         Relationships: []
       }
+      study_sessions: {
+        Row: {
+          id: string
+          user_id: string
+          course_id: string | null
+          started_at: string
+          ended_at: string | null
+          duration_minutes: number
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          course_id?: string | null
+          started_at?: string
+          ended_at?: string | null
+          duration_minutes?: number
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          course_id?: string | null
+          started_at?: string
+          ended_at?: string | null
+          duration_minutes?: number
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "study_sessions_user_id_fkey"
+            columns: ["user_id"]
+            isRelationOneToOne: false
+            referencedRelation: "users"
+            referencedTable: "auth.users"
+          }
+        ]
+      }
+      user_achievements: {
+        Row: {
+          id: string
+          user_id: string
+          achievement_type: "first_lesson" | "streak_7_days" | "streak_30_days" | "course_completed"
+          unlocked_at: string
+          is_unlocked: boolean
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          achievement_type: "first_lesson" | "streak_7_days" | "streak_30_days" | "course_completed"
+          unlocked_at?: string
+          is_unlocked?: boolean
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          achievement_type?: "first_lesson" | "streak_7_days" | "streak_30_days" | "course_completed"
+          unlocked_at?: string
+          is_unlocked?: boolean
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_achievements_user_id_fkey"
+            columns: ["user_id"]
+            isRelationOneToOne: false
+            referencedRelation: "users"
+            referencedTable: "auth.users"
+          }
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -46,7 +157,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      achievement_type: "first_lesson" | "streak_7_days" | "streak_30_days" | "course_completed"
     }
     CompositeTypes: {
       [_ in never]: never

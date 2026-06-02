@@ -1,9 +1,12 @@
 "use client";
 
-import type { ReactNode } from "react";
-import { Bell, Search } from "lucide-react";
+import { useState, type ReactNode } from "react";
+import { Search } from "lucide-react";
 import { Sidebar } from "./Sidebar";
 import { BottomNav } from "./BottomNav";
+import { SearchCommand } from "./SearchCommand";
+import { NotificationCenter } from "./NotificationCenter";
+import { ProfileMenu } from "./ProfileMenu";
 
 interface Props {
   children: ReactNode;
@@ -12,6 +15,8 @@ interface Props {
 }
 
 export function DashboardLayout({ children, title, subtitle }: Props) {
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+
   return (
     <main className="relative min-h-dvh flex w-full bg-background text-foreground">
       {/* ambient background */}
@@ -32,28 +37,33 @@ export function DashboardLayout({ children, title, subtitle }: Props) {
             )}
           </div>
           <div className="flex items-center gap-2">
+            {/* Search Button */}
             <button
               type="button"
+              onClick={() => setIsSearchOpen(true)}
               aria-label="Search"
-              className="hidden sm:inline-flex items-center gap-2 rounded-lg border border-border/70 bg-card/60 px-3 py-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors focus-ring"
+              className="hidden sm:inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-muted-foreground hover:text-foreground hover:bg-white/10 transition-colors"
             >
               <Search className="size-3.5" aria-hidden />
               <span>Search</span>
-              <kbd className="ml-2 rounded bg-background/70 border border-border/70 px-1.5 py-0.5 text-[10px]">⌘K</kbd>
+              <kbd className="ml-2 rounded bg-white/10 border border-white/10 px-1.5 py-0.5 text-[10px]">⌘K</kbd>
             </button>
+
+            {/* Mobile Search Button */}
             <button
               type="button"
-              aria-label="Notifications"
-              className="grid place-items-center size-9 rounded-lg border border-border/70 bg-card/60 hover:bg-card transition-colors focus-ring"
+              onClick={() => setIsSearchOpen(true)}
+              aria-label="Search"
+              className="sm:hidden grid place-items-center size-9 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 transition-colors"
             >
-              <Bell className="size-4" aria-hidden />
+              <Search className="size-4" />
             </button>
-            <div
-              aria-hidden
-              className="grid place-items-center size-9 rounded-full bg-gradient-to-br from-violet to-cyan text-[11px] font-semibold text-primary-foreground ring-1 ring-border/70"
-            >
-              A
-            </div>
+
+            {/* Notifications */}
+            <NotificationCenter />
+
+            {/* Profile Menu */}
+            <ProfileMenu />
           </div>
         </header>
 
@@ -63,6 +73,9 @@ export function DashboardLayout({ children, title, subtitle }: Props) {
       </section>
 
       <BottomNav />
+
+      {/* Search Command */}
+      <SearchCommand isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
     </main>
   );
 }

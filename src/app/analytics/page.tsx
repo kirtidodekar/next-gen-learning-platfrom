@@ -1,27 +1,56 @@
 import type { Metadata } from "next";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
-import { ActivityTile } from "@/components/dashboard/ActivityTile";
-import { StatTile } from "@/components/dashboard/StatTile";
-import { BentoGrid } from "@/components/dashboard/BentoGrid";
+import { AuthGuard } from "@/components/auth/AuthGuard";
+import { SummaryCards } from "@/components/analytics/SummaryCards";
+import { StudyTimeChart } from "@/components/analytics/StudyTimeChart";
+import { CourseProgressChart } from "@/components/analytics/CourseProgressChart";
+import { AchievementBadges } from "@/components/analytics/AchievementBadges";
+import {
+  getDashboardMetrics,
+  getStudyTimeByDay,
+  getCourseProgress,
+  getUserAchievements,
+  checkAndUnlockAchievements,
+} from "@/lib/analytics";
 
 export const metadata: Metadata = {
-  title: "Analytics",
-  description: "Track learning activity and trends over time.",
+  title: "Analytics Dashboard",
+  description: "Track your learning progress, study time, and achievements.",
   openGraph: {
-    title: "Analytics — Next-Gen Learning",
-    description: "Track learning activity and trends over time.",
+    title: "Analytics Dashboard — NextGen Learning",
+    description: "Track your learning progress, study time, and achievements.",
   },
 };
 
-export default function AnalyticsPage() {
+export default async function AnalyticsPage() {
+  // Fetch all data in parallel
+  const [metrics, studyTimeData, courseProgress, achievements] = await Promise.all([
+    getDashboardMetrics(),
+    getStudyTimeByDay(30),
+    getCourseProgress(),
+    getUserAchievements(),
+  ]);
+
+  // Check and unlock achievements in background
+  checkAndUnlockAchievements();
+
   return (
-    <DashboardLayout title="Analytics" subtitle="Your learning trends">
-      <BentoGrid>
-        <StatTile />
-        <StatTile />
-        <StatTile />
-        <ActivityTile />
-      </BentoGrid>
-    </DashboardLayout>
+    <AuthGuard>
+      <DashboardLayout title="Analytics Dashboard" subtitle="Track your learning progress">
+        <div className="space-y-6">
+          {/* Summary Cards */}
+          <SummaryCards metrics={metrics} />
+
+          {/* Charts */}
+          <div className="grid gap-4 sm:gap-6 lg:grid-cols-2">
+            <StudyTimeChart data={studyTimeData} />
+            <CourseProgressChart data={courseProgress} />
+          </div>
+
+          {/* Achievements */}
+          <AchievementBadges unlockedAchievements={achievements} />
+        </div>
+      </DashboardLayout>
+    </AuthGuard>
   );
 }

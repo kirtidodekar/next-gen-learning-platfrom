@@ -1,10 +1,9 @@
-import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { DashboardSkeleton } from "@/components/dashboard/DashboardSkeleton";
 
-export default function DashboardLoading() {
+export default function Loading() {
   return (
-    <DashboardLayout title="Dashboard" subtitle="Loading your latest activity…">
+    <div className="flex min-h-dvh items-center justify-center bg-black">
       <DashboardSkeleton />
-    </DashboardLayout>
+    </div>
   );
 }

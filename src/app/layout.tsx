@@ -1,4 +1,7 @@
 import type { Metadata, Viewport } from "next";
+import { AuthProvider } from "@/contexts/AuthContext";
+import { ThemeProvider } from "@/contexts/ThemeProvider";
+import { ThemeToaster } from "@/components/ThemeToaster";
 import "@/styles.css";
 
 export const viewport: Viewport = {
@@ -7,28 +10,55 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: "Next-Gen Learning Dashboard",
-    template: "%s — Next-Gen Learning",
+    default: "NextGen Learn — Next-Gen Learning Platform",
+    template: "%s — NextGen Learn",
   },
   description:
-    "A premium, animated learning dashboard with real-time progress and activity insights.",
-  authors: [{ name: "Lovable" }],
+    "A premium, animated learning platform with real-time progress, courses, and activity insights.",
   openGraph: {
-    title: "Next-Gen Learning Dashboard",
+    title: "NextGen Learn — Next-Gen Learning Platform",
     description:
-      "A premium, animated learning dashboard with real-time progress and activity insights.",
+      "Master new skills, track progress, and achieve your goals with our next-generation learning platform.",
     type: "website",
-  },
-  twitter: {
-    card: "summary",
-    site: "@Lovable",
   },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="dark">
-      <body className="bg-background text-foreground antialiased">{children}</body>
+    <html lang="en" className="dark" suppressHydrationWarning>
+      <head>
+        {/* Blocking theme script — prevents flash of incorrect theme on load */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                var s = JSON.parse(localStorage.getItem('user-settings-v2') || '{}');
+                if (s.themeMode === 'light') {
+                  document.documentElement.classList.remove('dark');
+                } else {
+                  document.documentElement.classList.add('dark');
+                }
+                if (s.fontSize) {
+                  var sizes = { small: '14px', medium: '16px', large: '18px' };
+                  document.documentElement.style.fontSize = sizes[s.fontSize] || '16px';
+                }
+                if (s.themeColor) {
+                  var colors = { violet: '#8b5cf6', blue: '#3b82f6', emerald: '#10b981', orange: '#f97316', rose: '#f43f5e' };
+                  document.documentElement.style.setProperty('--theme-accent', colors[s.themeColor] || '#8b5cf6');
+                }
+              } catch(e) {}
+            `,
+          }}
+        />
+      </head>
+      <body className="bg-background text-foreground antialiased">
+        <ThemeProvider>
+          <AuthProvider>
+            {children}
+          </AuthProvider>
+        </ThemeProvider>
+        <ThemeToaster />
+      </body>
     </html>
   );
 }

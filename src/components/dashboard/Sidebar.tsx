@@ -13,6 +13,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface NavItem {
   label: string;
@@ -21,7 +22,7 @@ interface NavItem {
 }
 
 const items: NavItem[] = [
-  { label: "Dashboard", to: "/", icon: LayoutDashboard },
+  { label: "Dashboard", to: "/dashboard", icon: LayoutDashboard },
   { label: "Courses", to: "/courses", icon: GraduationCap },
   { label: "Analytics", to: "/analytics", icon: LineChart },
   { label: "Settings", to: "/settings", icon: Settings },
@@ -30,6 +31,10 @@ const items: NavItem[] = [
 export function Sidebar() {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
+  const { profile, user } = useAuth();
+
+  const fullName = profile?.full_name || user?.user_metadata?.full_name || "Learner";
+  const email = profile?.email || user?.email || "";
 
   return (
     <motion.aside
@@ -50,12 +55,25 @@ export function Sidebar() {
         )}
       </div>
 
+      {/* User info */}
+      {!collapsed && (
+        <div className="px-3 pt-4 pb-2">
+          <div className="flex items-center gap-2 rounded-xl bg-white/5 p-2.5">
+            <div className="grid size-8 place-items-center rounded-full bg-gradient-to-br from-violet to-cyan text-xs font-bold text-white shrink-0">
+              {fullName.charAt(0).toUpperCase()}
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-xs font-semibold text-foreground">{fullName}</p>
+              <p className="truncate text-[10px] text-muted-foreground">{email}</p>
+            </div>
+          </div>
+        </div>
+      )}
+
       <nav className="flex-1 px-2 py-4">
         <ul className="flex flex-col gap-1">
           {items.map((item) => {
-            const active = item.to === "/"
-              ? pathname === "/"
-              : pathname.startsWith(item.to);
+            const active = pathname.startsWith(item.to);
             const Icon = item.icon;
             return (
               <li key={item.to}>

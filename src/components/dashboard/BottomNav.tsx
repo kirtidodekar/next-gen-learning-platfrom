@@ -7,7 +7,7 @@ import { LayoutDashboard, GraduationCap, LineChart, Settings, type LucideIcon } 
 
 interface Item { label: string; to: string; icon: LucideIcon }
 const items: Item[] = [
-  { label: "Home", to: "/", icon: LayoutDashboard },
+  { label: "Home", to: "/dashboard", icon: LayoutDashboard },
   { label: "Courses", to: "/courses", icon: GraduationCap },
   { label: "Stats", to: "/analytics", icon: LineChart },
   { label: "Settings", to: "/settings", icon: Settings },
@@ -23,7 +23,7 @@ export function BottomNav() {
       <ul className="grid grid-cols-4">
         {items.map((it) => {
           const Icon = it.icon;
-          const active = it.to === "/" ? pathname === "/" : pathname.startsWith(it.to);
+          const active = pathname.startsWith(it.to);
           return (
             <li key={it.to}>
               <Link
