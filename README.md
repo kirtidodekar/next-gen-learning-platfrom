@@ -112,6 +112,5 @@ npm start
 * AI Learning Assistant
 * Personalized Recommendations
 * Real-time Progress Updates
-* User Authentication
-* Course Certificates
+* Course Certificate
 
